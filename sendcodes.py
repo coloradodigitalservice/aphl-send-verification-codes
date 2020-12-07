@@ -25,8 +25,6 @@ REPORTED_DATE = 3
 # Tableau includes a blank column. Which is cool.
 BLANK = 4
 
-timezone = pytz.timezone('America/Denver')
-
 def init_argparse() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         usage="%(prog)s [ENV] [FILE]...",
@@ -104,7 +102,7 @@ with open(args.file, newline='', encoding='utf16') as csv_file:
         parsed_date = datetime.strptime(row[REPORTED_DATE], '%m/%d/%Y')
 
         # Calculate the timezone offset in minutes based on testDate to handle daylight savings time.
-        tzOffset = timezone.utcoffset(parsed_date).total_seconds() / 60
+        tzOffset = config.TIMEZONE.utcoffset(parsed_date).total_seconds() / 60
 
         # TESTING: to test without sending tons of texts uncomment the phone line in this dict.
         requestDict = {
