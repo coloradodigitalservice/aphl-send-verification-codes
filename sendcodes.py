@@ -5,6 +5,7 @@ import csv
 import time
 import json
 from datetime import datetime
+import pytz
 import phonenumbers
 import requests
 import base64
@@ -24,6 +25,7 @@ REPORTED_DATE = 3
 # Tableau includes a blank column. Which is cool.
 BLANK = 4
 
+timezone = pytz.timezone('America/Denver')
 
 def init_argparse() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -101,11 +103,14 @@ with open(args.file, newline='', encoding='utf16') as csv_file:
         # Parse the date.
         parsed_date = datetime.strptime(row[REPORTED_DATE], '%m/%d/%Y')
 
+        # calculate offset based on testDate to handle daylight savings time
+        tzOffset = timezone.utcoffset(parsed_date).total_seconds() / 60
+
         # TESTING: to test without sending tons of texts uncomment the phone line in this dict.
         requestDict = {
             "testDate": parsed_date.strftime('%Y-%m-%d'),
             "testType": "confirmed",
-            "tzOffset": -420,
+            "tzOffset": tzOffset,
             "phone": f"+{parsed_phone.country_code}{parsed_phone.national_number}",
             "padding": get_random_base64_string(),
         }
