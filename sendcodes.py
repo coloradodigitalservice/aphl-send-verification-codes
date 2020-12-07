@@ -24,6 +24,7 @@ REPORTED_DATE = 3
 # Tableau includes a blank column. Which is cool.
 BLANK = 4
 
+
 def init_argparse() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         usage="%(prog)s [ENV] [FILE]...",
