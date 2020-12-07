@@ -5,7 +5,6 @@ import csv
 import time
 import json
 from datetime import datetime
-import pytz
 import phonenumbers
 import requests
 import base64
