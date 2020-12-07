@@ -103,7 +103,7 @@ with open(args.file, newline='', encoding='utf16') as csv_file:
         # Parse the date.
         parsed_date = datetime.strptime(row[REPORTED_DATE], '%m/%d/%Y')
 
-        # calculate offset based on testDate to handle daylight savings time
+        # Calculate the timezone offset in minutes based on testDate to handle daylight savings time.
         tzOffset = timezone.utcoffset(parsed_date).total_seconds() / 60
 
         # TESTING: to test without sending tons of texts uncomment the phone line in this dict.
