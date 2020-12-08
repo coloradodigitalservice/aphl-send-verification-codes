@@ -101,11 +101,14 @@ with open(args.file, newline='', encoding='utf16') as csv_file:
         # Parse the date.
         parsed_date = datetime.strptime(row[REPORTED_DATE], '%m/%d/%Y')
 
+        # Calculate the timezone offset in minutes based on testDate to handle daylight savings time.
+        tzOffset = config.TIMEZONE.utcoffset(parsed_date).total_seconds() / 60
+
         # TESTING: to test without sending tons of texts uncomment the phone line in this dict.
         requestDict = {
             "testDate": parsed_date.strftime('%Y-%m-%d'),
             "testType": "confirmed",
-            "tzOffset": -420,
+            "tzOffset": tzOffset,
             "phone": f"+{parsed_phone.country_code}{parsed_phone.national_number}",
             "padding": get_random_base64_string(),
         }
